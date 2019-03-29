@@ -93,6 +93,8 @@ public class NBody {
   //   return planets;
   // }
 
+  /* it do not assume the size is 5 */
+  /* I have to use List, then convert it back to array XD */
   public static Planet[] readPlanets(String filename) {
     In in = new In(filename);
     in.readLine();
@@ -117,11 +119,13 @@ public class NBody {
       planets.add(p);
     }
 
+    /* Init size can be stored in a variable */
+    /* convert it back to array type */
     Planet[] results = new Planet[planets.size()];
     for (int i = 0; i < planets.size(); ++i) {
       results[i] = planets.get(i);
     }
-    
+
     return results;
   }
 }
