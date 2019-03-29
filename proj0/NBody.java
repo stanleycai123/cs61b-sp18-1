@@ -14,8 +14,12 @@ public class NBody {
     StdDraw.setScale(-R, R);
     StdDraw.clear();
     StdDraw.picture(0, 0, "images/starfield.jpg");
-
     StdDraw.show();
+
+    /* Draw Planets */
+    for (Planet p : planets) {
+      p.draw();
+    }
   }
 
   public static double readRadius(String filename) {
