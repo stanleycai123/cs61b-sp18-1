@@ -49,3 +49,4 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 .vscode/launch.json
+.vscode/settings.json
