@@ -26,17 +26,11 @@ public class NBody {
       /* calc forces */
       double[] xForces = new double[planets.length];
       double[] yForces = new double[planets.length];
+
       for (int i = 0; i < planets.length; ++i) {
         Planet p1 = planets[i];
-        for (int j = 0; j < planets.length; ++j) {
-          Planet p2 = planets[j];
-          /* don't calc the forces exerted by itself */
-          if (p1.equals(p2)) {
-            continue;
-          }
-          xForces[i] += p1.calcForceExertedByX(p2);
-          yForces[i] += p1.calcForceExertedByY(p2);
-        }
+        xForces[i] = p1.calcNetForceExertedByX(planets);
+        yForces[i] = p1.calcNetForceExertedByY(planets);
       }
 
       /* update */

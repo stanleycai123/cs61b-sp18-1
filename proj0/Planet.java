@@ -11,9 +11,8 @@ public class Planet {
   public double yyVel;
   public double mass;
   public String imgFileName;
-  
-  public Planet(double xP, double yP, double xV,
-                double yV, double m, String img) {
+
+  public Planet(double xP, double yP, double xV, double yV, double m, String img) {
     this.xxPos = xP;
     this.yyPos = yP;
     this.xxVel = xV;
@@ -34,7 +33,7 @@ public class Planet {
   public double calcDistance(Planet other) {
     double dx = this.xxPos - other.xxPos;
     double dy = this.yyPos - other.yyPos;
-    return Math.sqrt(dx * dx + dy * dy);  /* pow() is slower */
+    return Math.sqrt(dx * dx + dy * dy); /* pow() is slower */
   }
 
   public double calcForceExertedBy(Planet other) {
@@ -42,7 +41,36 @@ public class Planet {
     return G * this.mass * other.mass / (dis * dis);
   }
 
-  /* NOTE: Do not use Math.abs to fix sign issues with these methods. This will cause issues later when drawing planets. */
+  public double calcNetForceExertedByX(Planet[] planets) {
+    double sum = 0;
+    for (int i = 0; i < planets.length; ++i) {
+      Planet p = planets[i];
+      /* don't calc the forces exerted by itself */
+      if (this.equals(p)) {
+        continue;
+      }
+      sum += this.calcForceExertedByX(p);
+    }
+    return sum;
+  }
+
+  public double calcNetForceExertedByY(Planet[] planets) {
+    double sum = 0;
+    for (int i = 0; i < planets.length; ++i) {
+      Planet p = planets[i];
+      /* don't calc the forces exerted by itself */
+      if (this.equals(p)) {
+        continue;
+      }
+      sum += this.calcForceExertedByY(p);
+    }
+    return sum;
+  }
+
+  /*
+   * NOTE: Do not use Math.abs to fix sign issues with these methods. This will
+   * cause issues later when drawing planets.
+   */
   public double calcForceExertedByX(Planet other) {
     double dx = other.xxPos - this.xxPos;
     double r = this.calcDistance(other);
