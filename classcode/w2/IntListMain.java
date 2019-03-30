@@ -7,7 +7,11 @@ public class IntListMain {
     L.rest = new IntList(10, null);
     L.rest.rest = new IntList(15, null);
     // System.out.println(L.iterativeSize());
-    System.out.println(L.get_recursive(3));
+    // System.out.println(L.get_recursive(3));
+    IntList l = IntList.incrList_recursive(L, 2);
+    System.out.println(l.first);
+    System.out.println(l.rest.first);
+    System.out.println(l.rest.rest.first);
   }
 }
 
@@ -37,7 +41,7 @@ class IntList {
   public int iterativeSize() {
     int totalSize = 0;
     IntList p = this; /* better to name it as "p" */
-    while (p != null) {  /* just "p" ? */
+    while (p != null) { /* just "p" ? */
       totalSize += 1;
       p = p.rest;
     }
@@ -64,5 +68,50 @@ class IntList {
       p = p.rest;
     }
     return -1;
+  }
+
+  /** 
+   * Extra Exercise (iterative & recursive)
+  */
+  public static IntList incrList(IntList L, int x) {
+    IntList p1 = L; /* p1 to L */
+    IntList M = null; /* the new list */
+    IntList p2 = null; /* p2 to M */
+    
+    if (p1 != null) {
+      M = new IntList(p1.first + x, null);
+      p2 = M;
+      p1 = p1.rest;
+    }
+
+    while (p1 != null) {
+      /* p1 is one ahead p2 */
+      /* so if p1 points to sth., need to copy it to p2.rest */
+      p2.rest = new IntList(p1.first + x, null);
+      p2 = p2.rest; /* p2 points to what is just created */
+      p1 = p1.rest; /* update p1 too */
+    }
+    return M;
+  }
+
+  /* Recursive Version */
+  public static IntList incrList_recursive(IntList L, int x) {
+    if (L == null) { /* base case */
+      return null;
+    }
+    return new IntList(L.first + x, incrList(L.rest, x));
+  }
+
+  /**
+   * Returns an IntList identical to L, but with each element incremented by x.
+   * Not allowed to use the 'new' keyword.
+   */
+  public static IntList dincrList(IntList L, int x) {
+    IntList p = L;
+    while (p != null) {
+      p.first += x;
+      p = p.rest;
+    }
+    return L;
   }
 }
