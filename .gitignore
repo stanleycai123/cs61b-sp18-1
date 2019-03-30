@@ -50,3 +50,4 @@ $RECYCLE.BIN/
 *.lnk
 .vscode/launch.json
 .vscode/settings.json
+.idea/
