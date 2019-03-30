@@ -1,4 +1,4 @@
-public class SLMain {
+public class StrListEx {
   public static void main(String[] args) {
     StringList L = new StringList("eat", null);
     L = new StringList("shouldn't", L);
