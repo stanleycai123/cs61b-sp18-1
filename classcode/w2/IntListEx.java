@@ -74,22 +74,20 @@ class IntList {
    * Extra Exercise (iterative & recursive)
   */
   public static IntList incrList(IntList L, int x) {
-    IntList p1 = L; /* p1 to L */
-    IntList M = null; /* the new list */
-    IntList p2 = null; /* p2 to M */
-    
-    if (p1 != null) {
-      M = new IntList(p1.first + x, null);
-      p2 = M;
-      p1 = p1.rest;
+    /* or you can just use L */
+    if (L == null) {
+      return null;
     }
-
-    while (p1 != null) {
-      /* p1 is one ahead p2 */
-      /* so if p1 points to sth., need to copy it to p2.rest */
-      p2.rest = new IntList(p1.first + x, null);
-      p2 = p2.rest; /* p2 points to what is just created */
-      p1 = p1.rest; /* update p1 too */
+    /* Head to the new list */
+    IntList M = new IntList(p1.first + x, null);
+    IntList p = M; /* p to M */
+    /* ahead */
+    L = L.rest;
+    while (L != null) {
+      /* L is one ahead p */
+      p.rest = new IntList(L.first + x, null);
+      p = p.rest; /* p points to what is just created */
+      L = L.rest; /* update L too */
     }
     return M;
   }
