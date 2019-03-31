@@ -85,7 +85,7 @@ class IntList {
     L = L.rest;
     while (L != null) {
       /* L is one ahead p */
-      p.rest = new IntList(L.first + x, null);
+      p.rest = new IntList(L.first + x, null); /* null, becasue we don't know the next one yet */
       p = p.rest; /* p points to what is just created */
       L = L.rest; /* update L too */
     }
