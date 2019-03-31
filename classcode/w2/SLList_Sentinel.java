@@ -1,52 +1,58 @@
 /**
- * Created by JunhaoW on 03/30/2019
+ * Created by JunhaoW on 03/31/2019
  */
 
-public class SLList {
-  private IntNode first;
+public class SLList_Sentinel {
   private int size;
+  private IntNode sentinel; /* The first item (if it exists) is at sentinel.next */
+  /* sentinel should not be changed later (after init) */
 
-  public SLList() {
-    first = null;
+  public SLList_Sentinel() {
+    sentinel = new IntNode(63, null); /* whatever item is */
     size = 0;
   }
 
-  public SLList(int x) {
-    first = new IntNode(x, null);
+  public SLList_Sentinel(int x) {
+    sentinel = new IntNode(63, null);
+    sentinel.next = new IntNode(x, null);
     size = 1;
   }
 
   public static void main(String[] args) {
-    // foo
+    SLList L = new SLList();
+    System.out.println(L.getFirst()); /* getFirst bug */
   }
 
   /** Adds x to the front of the list */
   public void addFirst(int x) {
-    /** redundant code
-    IntNode newFirst = new IntNode(x, first);
-    first = newFirst;
-     */
-    first = new IntNode(x, first);
+    sentinel.next = new IntNode(x, sentinel.next);
     size += 1;
   }
 
   /** Return the first item in the list */
   public int getFirst() {
-    return first.item;
+    return sentinel.next.item; /* BUT could be NullPointer */
+    /* solution */
+    // if (sentinel.next == null) {
+    //   return -1;
+    // } else {
+    //   return sentinel.next.item;
+    // }
   }
 
   /** .addLast (should be considered when using empty list) */
   public void addLast(int x) {
     size += 1;
     /* Code for special case */
-    if (first == null) {
+    /*if (first == null) {
       first = new IntNode(x, null);
       return;
-    }
-    IntNode p = first;
-    while (p.next != null) { /* Move p until it reaches the end of the list */
+    }*/
+    IntNode p = sentinel; /* absolutely not null */
+    /* p.next == null, if there is an empty list*/
+    while (p.next != null) {
       p = p.next;
-    } /* now p points to the last element rather than null */
+    }
     p.next = new IntNode(x, null);
   }
 
@@ -58,7 +64,7 @@ public class SLList {
 
   /** Outdated Version */
   public int size_oldVersion() {
-    IntNode p = first;
+    IntNode p = sentinel.next;
     int totalSize = 0;
     while (p != null) {
       totalSize += 1;
@@ -71,7 +77,7 @@ public class SLList {
    *  Tricky. 'cause SLList is not recursive!
    */
   public int size_re() { // public method that uses the private method
-    return size(first);
+    return size(sentinel.next);
   }
   /** Returns the size of the list that starts at IntNode p (common pattern) */
   /** Private Helper Method */

@@ -79,7 +79,7 @@ class IntList {
       return null;
     }
     /* Head to the new list */
-    IntList M = new IntList(p1.first + x, null);
+    IntList M = new IntList(L.first + x, null);
     IntList p = M; /* p to M */
     /* ahead */
     L = L.rest;
