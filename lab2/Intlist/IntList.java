@@ -92,6 +92,22 @@ public class IntList {
   }
 
   /**
+   * dcatenate - recursive version
+   */
+  public static IntList dcatenate_re(IntList A, IntList B) {
+    if (A == null) {
+      return B;
+    }
+    if (A.rest == null) {
+      A.rest = B;
+      return null;
+    }
+    /* A */
+    dcatenate_re(A.rest, B);
+    return A;
+  }
+
+  /**
    * Returns a list consisting of the elements of A followed by the
    * * elements of B.  May NOT modify items of A.  Use 'new'.
    */
@@ -121,11 +137,39 @@ public class IntList {
     return M;
   }
 
-  // public static void main(String[] args) {
-  //   IntList L1 = IntList.of(1, 2, 3, 4, 5);
-  //   IntList L2 = IntList.of(6, 7);
-  //   System.out.println(IntList.catenate(null, L2));
-  // }
+  /**
+   * catenate - recursive
+   */
+  public static IntList catenate_re(IntList A, IntList B) {
+    if (A == null) {
+      /* Enter B mode! later A should be null always */
+      if (B == null) {
+        return null;
+      }
+      return new IntList(B.first, catenate_re(null, B.rest));
+    } else { /* A != null */
+      /* Enter A mode! later B stays the same */
+      return new IntList(A.first, catenate_re(A.rest, B));
+    }
+  }
+
+  /**
+   * main
+   */
+  public static void main(String[] args) {
+    IntList L1 = IntList.of(1, 2, 3, 4, 5);
+    IntList L2 = IntList.of(6, 7);
+    // System.out.println(IntList.catenate(null, L2));
+    /* dcatenate - recursive */
+    // System.out.println(dcatenate_re(null, L2));
+    // System.out.println(L1);
+    /* catenate - recursive */
+    // L1 = null;
+    L2 = null;
+    System.out.println("catenate_re(L1, L2) = " + catenate_re(L1, L2));
+    System.out.println("L1 = " + L1); /* check if it stay the same */
+    System.out.println("L2 = " + L2);
+  }
 
 
   /**
