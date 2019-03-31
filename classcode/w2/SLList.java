@@ -4,13 +4,15 @@
 
 public class SLList {
   private IntNode first;
+  private int size;
 
   public SLList(int x) {
     first = new IntNode(x, null);
+    size = 1;
   }
 
   public static void main(String[] args) {
-
+    // foo
   }
 
   /** Adds x to the front of the list */
@@ -20,6 +22,7 @@ public class SLList {
     first = newFirst;
      */
     first = new IntNode(x, first);
+    size += 1;
   }
 
   /** Return the first item in the list */
@@ -35,10 +38,16 @@ public class SLList {
       p = p.next;
     } /* now p points to the last element rather than null */
     p.next = new IntNode(x, null);
+    size += 1;
   }
 
   /** .size() */
   public int size() {
+    return size;
+  }
+
+  /** Outdated Version */
+  public int size_oldVersion() {
     IntNode p = first;
     int totalSize = 0;
     while (p != null) {
@@ -62,8 +71,6 @@ public class SLList {
     }
     return 1 + size(p.next);
   }
-
-
 
   /**
    * IntNode
