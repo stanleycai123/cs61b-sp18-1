@@ -157,9 +157,6 @@ public class IntList {
    * Osmosis - Practice
    * addAjacent()
    */
-  /**
-   * L.addAdjacent()
-   */
   public void addAdjacent() {
     IntList p = this;
     /* if p == null, p.next will no longer execute */
@@ -179,6 +176,25 @@ public class IntList {
     }
   }
 
+
+  /** Square Insertion
+   *  addLastAndSquare(int x)
+   */
+  public void addLastAndSquare(int x) {
+    IntList p = this;
+    while (p.rest != null) { /* p won't be null */
+      IntList squareNode = new IntList(p.first * p.first, p.rest);
+      p.rest = squareNode;
+      p = p.rest.rest;
+    } /* p stops at the last node */
+    /* add node of x */
+    IntList newNode = new IntList(x, null);
+    /* square the last node  */
+    IntList squareNode = new IntList(p.first * p.first, newNode); /* p.rest is null */
+    p.rest = squareNode;
+    /* if use while (p != null), need an extra pointer to the previous node (to remember) */
+  }
+
   /**
    * main
    */
@@ -191,6 +207,7 @@ public class IntList {
     // System.out.println(L1);
     // TestCatenate();
     TestAddAdjacent();
+    TestSquareInsertion();
   }
 
   public static void TestCatenate() {
@@ -208,6 +225,13 @@ public class IntList {
     // IntList L = IntList.of(1, 1, 2, 3);
     IntList L = IntList.of(1, 1, 1, 2, 3, 3, 6);
     L.addAdjacent();
+    System.out.println(L);
+  }
+
+  public static void TestSquareInsertion() {
+    IntList L = IntList.of(1, 2);
+    L.addLastAndSquare(5);
+    L.addLastAndSquare(7);
     System.out.println(L);
   }
 
