@@ -18,18 +18,37 @@ public class SLList_Sentinel {
     size = 1;
   }
 
-  public static void main(String[] args) {
-    SLList L = new SLList();
-    System.out.println(L.getFirst()); /* getFirst bug */
+  /**
+   * Constructor with array
+   */
+  public SLList_Sentinel(int[] intArray) {
+    this(); /* empty list with a sentinel */
+    IntNode p = sentinel; /** Notice to create something you'll need this pattern */
+    for (int x : intArray) {
+      p.next = new IntNode(x, null);
+      p = p.next;
+    }
   }
 
-  /** Adds x to the front of the list */
+  public static void main(String[] args) {
+    int[] intArray = new int[]{1, 2, 3, 4, 5};
+    SLList_Sentinel L = new SLList_Sentinel(intArray);
+    System.out.println("L = " + L);
+
+    // System.out.println(L.getFirst()); /* getFirst bug */
+  }
+
+  /**
+   * Adds x to the front of the list
+   */
   public void addFirst(int x) {
     sentinel.next = new IntNode(x, sentinel.next);
     size += 1;
   }
 
-  /** Return the first item in the list */
+  /**
+   * Return the first item in the list
+   */
   public int getFirst() {
     return sentinel.next.item; /* BUT could be NullPointer still */
     /* solution */
@@ -57,7 +76,9 @@ public class SLList_Sentinel {
   }
 
 
-  /** .addLast (should be considered when using empty list) */
+  /**
+   * .addLast (should be considered when using empty list)
+   */
   public void addLast(int x) {
     size += 1;
     /* Code for special case */
@@ -74,12 +95,16 @@ public class SLList_Sentinel {
   }
 
 
-  /** .size() */
+  /**
+   * .size()
+   */
   public int size() {
     return size;
   }
 
-  /** Outdated Version */
+  /**
+   * Outdated Version
+   */
   public int size_oldVersion() {
     IntNode p = sentinel.next;
     int totalSize = 0;
@@ -90,14 +115,17 @@ public class SLList_Sentinel {
     return totalSize;
   }
 
-  /** Recursive version
-   *  Tricky. 'cause SLList is not recursive!
+  /**
+   * Recursive version
+   * Tricky. 'cause SLList is not recursive!
    */
   public int size_re() { // public method that uses the private method
     return size(sentinel.next);
   }
   /** Returns the size of the list that starts at IntNode p (common pattern) */
-  /** Private Helper Method */
+  /**
+   * Private Helper Method
+   */
   private static int size(IntNode p) { /* same name but different signature - overload */
     if (p == null) { /* or p.next == null (consider empty list case) */
       return 0;      /* or return 1; */
@@ -119,7 +147,9 @@ public class SLList_Sentinel {
       this.next = next;
     }
 
-    /** Tricky - addFirst for IntList (IntNode) */
+    /**
+     * Tricky - addFirst for IntList (IntNode)
+     */
     public void addFirst(int x) {
       // this = new IntNode(x, this); not okay!
       /* change the first object */
