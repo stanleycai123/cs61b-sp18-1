@@ -52,12 +52,11 @@ public class SLList_Sentinel {
    */
   public int getFirst() {
     return sentinel.next.item; /* BUT could be NullPointer still */
-    /* solution */
-    // if (sentinel.next == null) {
-    //   return -1;
-    // } else {
-    //   return sentinel.next.item;
-    // }
+
+    /** Assume there are two sentinels */
+    /** If size == 0, sentinel.next == null
+     *  Since there are two sentinels, that's okay. But the item is ??
+     * */
   }
 
   /** Delete the first element in the SLList */
