@@ -35,6 +35,20 @@ public class SLList {
     return first.item;
   }
 
+
+  /** Delete the first element in the SLList */
+  /** Without sentinel */
+  public int deleteFirst() {
+    if (first == null) {
+      return -1;
+    }
+    IntNode deletedNode = first;
+    first = first.next; /* could be null */
+    size -= 1;
+    return deletedNode.item;
+  }
+
+
   /** .addLast (should be considered when using empty list) */
   public void addLast(int x) {
     size += 1;

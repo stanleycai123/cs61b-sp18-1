@@ -31,7 +31,7 @@ public class SLList_Sentinel {
 
   /** Return the first item in the list */
   public int getFirst() {
-    return sentinel.next.item; /* BUT could be NullPointer */
+    return sentinel.next.item; /* BUT could be NullPointer still */
     /* solution */
     // if (sentinel.next == null) {
     //   return -1;
@@ -39,6 +39,23 @@ public class SLList_Sentinel {
     //   return sentinel.next.item;
     // }
   }
+
+  /** Delete the first element in the SLList */
+  /**
+   * With sentinel
+   */
+  public int deleteFirst() {
+    /* sentinel.next could be null when size == 0 */
+    if (sentinel.next == null) {
+      return -1;
+    }
+    IntNode deletedNode = sentinel.next;
+    sentinel.next = sentinel.next.next;
+    /* .next.next could be null if size == 1, but it's okay */
+    size -= 1;
+    return deletedNode.item;
+  }
+
 
   /** .addLast (should be considered when using empty list) */
   public void addLast(int x) {
