@@ -27,6 +27,7 @@ public class SLList_Sentinel {
     for (int x : intArray) {
       p.next = new IntNode(x, null);
       p = p.next;
+      size += 1;
     }
   }
 
@@ -80,7 +81,6 @@ public class SLList_Sentinel {
    * .addLast (should be considered when using empty list)
    */
   public void addLast(int x) {
-    size += 1;
     /* Code for special case */
     /*if (first == null) {
       first = new IntNode(x, null);
@@ -92,6 +92,7 @@ public class SLList_Sentinel {
       p = p.next;
     }
     p.next = new IntNode(x, null);
+    size += 1;
   }
 
 
