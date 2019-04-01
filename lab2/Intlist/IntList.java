@@ -124,7 +124,7 @@ public class IntList {
         A = A.rest;
       } /* now p points to the last element of A */
     } else if (B != null) { /* A == null */
-    // if (A == null && B != null) {  /* this line is bug. A is changed */
+      // if (A == null && B != null) {  /* this line is bug. A is changed */
       M = new IntList(B.first, null);
       p = M;
       B = B.rest;
@@ -154,6 +154,32 @@ public class IntList {
   }
 
   /**
+   * Osmosis - Practice
+   * addAjacent()
+   */
+  /**
+   * L.addAdjacent()
+   */
+  public void addAdjacent() {
+    IntList p = this;
+    /* if p == null, p.next will no longer execute */
+    if (p.rest == null) {
+      /* size <= 1 */
+      return;
+    }
+    while (p.rest != null) { /* p ends at the last 2nd node */
+      if (p.first == p.rest.first) {
+        /* merge */
+        p.first *= 2;
+        p.rest = p.rest.rest; /* it's okay if it is null */
+        /* Notice: no ++ here */
+      } else {
+        p = p.rest;
+      }
+    }
+  }
+
+  /**
    * main
    */
   public static void main(String[] args) {
@@ -163,12 +189,26 @@ public class IntList {
     /* dcatenate - recursive */
     // System.out.println(dcatenate_re(null, L2));
     // System.out.println(L1);
+    // TestCatenate();
+    TestAddAdjacent();
+  }
+
+  public static void TestCatenate() {
     /* catenate - recursive */
+    IntList L1 = IntList.of(1, 2, 3, 4, 5);
+    IntList L2 = IntList.of(6, 7);
     // L1 = null;
     L2 = null;
     System.out.println("catenate_re(L1, L2) = " + catenate_re(L1, L2));
     System.out.println("L1 = " + L1); /* check if it stay the same */
     System.out.println("L2 = " + L2);
+  }
+
+  public static void TestAddAdjacent() {
+    // IntList L = IntList.of(1, 1, 2, 3);
+    IntList L = IntList.of(1, 1, 1, 2, 3, 3, 6);
+    L.addAdjacent();
+    System.out.println(L);
   }
 
 
