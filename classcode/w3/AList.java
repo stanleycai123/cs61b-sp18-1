@@ -4,49 +4,61 @@
  * @author Josh Hug
  */
 
-public class AList {
+//         0 1  2 3 4 5 6 7 ...
+// items: [6 9 -1 0 0 0 0 0 ...]
+// size: 3
 
-  int[] items;
-  int size;
+public class AList<T> {
 
-  private final int MAX = 100;
+  private T[] items;
+  private int size;
 
   /**
    * Creates an empty list.
    */
   public AList() {
-    items = new int[MAX];
+    items = (T[]) new Object[100];
     size = 0;
   }
 
   /**
    * Inserts X into the back of the list.
    */
-  public void addLast(int x) {
-    if (size < MAX) {
-      items[size] = x;
-      size += 1;
+  public void addLast(T x) {
+    if (size >= items.length) {
+      resize(size * 2);
     }
+    items[size] = x;
+    size += 1;
+  }
+
+  /**
+   * Resize the underlying array to the target capacity.
+   */
+  private void resize(int capacity) {
+    T[] a = (T[]) new Object[capacity];
+    System.arraycopy(items, 0, a, 0, size); /* or items.length */
+    items = a;
   }
 
   /**
    * Returns the item from the back of the list.
    */
-  public int getLast() {
+  public T getLast() {
     if (size > 0) {
       return items[size - 1];
     }
-    return -1;
+    return null;
   }
 
   /**
    * Gets the ith item in the list (0 is the front).
    */
-  public int get(int i) {
+  public T get(int i) {
     if (size > 0 && i >= 0 && i < size) {
       return items[i];
     }
-    return -1;
+    return null;
   }
 
   /**
@@ -60,11 +72,13 @@ public class AList {
    * Deletes item from back of the list and
    * returns deleted item.
    */
-  public int removeLast() {
+  public T removeLast() {
     if (size > 0) {
       size -= 1;
-      return items[size];
+      T removedItem = items[size];
+      items[size] = null;
+      return removedItem;
     }
-    return -1;
+    return null;
   }
 } 
