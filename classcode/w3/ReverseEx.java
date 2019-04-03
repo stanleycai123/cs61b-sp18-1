@@ -4,32 +4,31 @@
 
 public class ReverseEx {
   public static void main(String[] args) {
-    System.out.println("haha");
 
     /**
      * Iterative (passed)
      */
-    System.out.println("Iterative");
+    System.out.println("Iterative:");
     SLList L1 = new SLList(1); L1.addLast(2); L1.addLast(3);
     // SLList L1 = new SLList(1); L1.addLast(2);
     // SLList L1 = new SLList(1);
-    System.out.println("L1 = " + L1);
+    System.out.println("Origin = " + L1);
     L1.reverse_my();
     System.out.println("My Way = " + L1);
-    L1.reverse_answer();
+    L1.reverse_answer(); L1.reverse_answer(); /* Reverse for 2 times */
     System.out.println("Answer = " + L1);
 
     /**
      * Recursive (passed)
      */
-    System.out.println("\nRecursive");
+    System.out.println("\nRecursive:");
     SLList L2 = new SLList(1); L2.addLast(2); L2.addLast(3);
     // SLList L2 = new SLList(1); L2.addLast(2);
     // SLList L2 = new SLList(1);
-    System.out.println("L2 = " + L2);
+    System.out.println("Origin = " + L2);
     L2.reverse_re_my();
     System.out.println("My Way = " + L2);
-    L2.reverse_re_answer();
+    L2.reverse_re_answer(); L2.reverse_re_answer();
     System.out.println("Answer = " + L2);
   }
 }
