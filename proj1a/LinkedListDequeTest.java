@@ -1,3 +1,7 @@
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 /**
  * Performs some basic linked list tests.
  */
@@ -97,9 +101,33 @@ public class LinkedListDequeTest {
 		// */
   }
 
-  public static void main(String[] args) {
-    System.out.println("Running tests.\n");
-    addIsEmptySizeTest();
-    addRemoveTest();
+
+  @Test
+  public void testGet() {
+    LinkedListDeque<Integer> L = new LinkedListDeque<>();
+    assertEquals(null, L.get(0));
+    L.addFirst(3);
+    assertEquals(Integer.valueOf(3), L.get(0));
+    L.addFirst(2);
+    L.addFirst(1);
+    assertEquals(Integer.valueOf(3), L.get(2));
   }
+
+  @Test
+  public void testGetRecursive() {
+    LinkedListDeque<Integer> L = new LinkedListDeque<>();
+    assertEquals(null, L.getRecursive(0));
+    L.addFirst(3);
+    assertEquals(Integer.valueOf(3), L.getRecursive(0));
+    L.addFirst(2);
+    L.addFirst(1);
+    assertEquals(Integer.valueOf(3), L.getRecursive(2));
+  }
+
+
+  // public static void main(String[] args) {
+  //   System.out.println("Running tests.\n");
+  //   addIsEmptySizeTest();
+  //   addRemoveTest();
+  // }
 }

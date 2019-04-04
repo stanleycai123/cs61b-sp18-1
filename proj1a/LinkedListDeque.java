@@ -29,11 +29,14 @@ public class LinkedListDeque<T> {
       next = n;
     }
 
+    /** helpermethod */
     public T get(int index) {
-      if (index == 0) {
+      if (index <= 0) { /* minus for outofbound index */
         return item;
       }
-      return next.get(index--);
+      // return next.get(index--);  bug!!!  should be [--index]
+      // return next.get(--index);  not good too
+      return next.get(index - 1);   /* better */
     }
   }
 
@@ -77,16 +80,16 @@ public class LinkedListDeque<T> {
   }
 
   /** get */
+  // 0 1 2 3 4 5
+  // 3 5 9 5 3 8
   public T get(int index) {
-    if (isEmpty()) { /* you can remove "if", and put count < size in the "while" */
+    if (isEmpty()) {
       return null;
     }
-    Node p = sentinel; /* start from 0 */
-    /** If p = sentinel.next, count should be 1 */
-    int count = 0;
-    while (count <= index) {
-      count += 1;
+    Node p = sentinel.next; /* the 1st real node */
+    while (index > 0) {
       p = p.next;
+      index--;
     }
     return p.item;
   }
@@ -97,7 +100,7 @@ public class LinkedListDeque<T> {
       return null;
     }
     /** sentinel.next won't be null */
-    return sentinel.next.get(index);
+    return sentinel.next.get(index); /* Node.get */
   }
 
 
