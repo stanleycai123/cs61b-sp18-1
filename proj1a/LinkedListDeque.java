@@ -13,10 +13,10 @@ public class LinkedListDeque<T> {
   /**
    * Node
    */
-  private class Node {
+  private class Node { /* should be private */
 
     public T item;
-    public Node prev;
+    public Node prev; /** DLList - Doubly Linked List */
     public Node next;
 
     public Node(T i) {
@@ -29,13 +29,14 @@ public class LinkedListDeque<T> {
       next = n;
     }
 
-    /** helpermethod */
+    /** Helper Method (Recursive) */
     public T get(int index) {
-      if (index <= 0) { /* minus for outofbound index */
+      if (index <= 0) {
         return item;
+      } else if (this == sentinel) { /* what if index is very large */
+        /** Returns null if index is out of bound */
+        return null;
       }
-      // return next.get(index--);  bug!!!  should be [--index]
-      // return next.get(--index);  not good too
       return next.get(index - 1);   /* better */
     }
   }
@@ -83,24 +84,24 @@ public class LinkedListDeque<T> {
   // 0 1 2 3 4 5
   // 3 5 9 5 3 8
   public T get(int index) {
-    if (isEmpty()) {
-      return null;
-    }
+    // if (isEmpty()) { return null; }
+    /* could be removed, since we set sentinel.item == null */
     Node p = sentinel.next; /* the 1st real node */
-    while (index > 0) {
+    while (index > 0 && p != sentinel) { /* p != sentinel stops outofbound */
       p = p.next;
       index--;
     }
-    return p.item;
+    return p.item; /* when index is out of bound, returns null (sentinel) */
   }
 
   /** getRecursive */
   public T getRecursive(int index) {
-    if (isEmpty()) {
-      return null;
-    }
+    // if (isEmpty()) {  /* because in get, if (this.sentinel == null) return null; */
+    //   return null;    /* and emptyList -> firstNode == sentinel */
+    // }
     /** sentinel.next won't be null */
-    return sentinel.next.get(index); /* Node.get */
+    Node firstNode = sentinel.next;
+    return firstNode.get(index); /* Node.get */
   }
 
 
@@ -133,8 +134,11 @@ public class LinkedListDeque<T> {
     /** If there is no sentinel, you need to add "if (first == null)" */
     /** first.prev will crash if first is null */
     // sentinel.prev = new Node(item, sentinel.prev.prev, sentinel);  <- bug: sentinel.prev (old last node)
-    sentinel.prev = new Node(item, sentinel.prev, sentinel);
-    sentinel.prev.prev.next = sentinel.prev;
+
+    /** Compatible with empty list */
+    Node newNode = new Node(item, sentinel.prev, sentinel);
+    sentinel.prev = newNode;
+    newNode.prev.next = newNode;
     size += 1;
   }
 
@@ -145,7 +149,7 @@ public class LinkedListDeque<T> {
   /** removeFirst */
   public T removeFirst() {
     if (isEmpty()) { /* because of circular sentinel, removedNode won't be null */
-      return null;
+      return null; /* just in case size -= 1, return is okay since sentinel.item is null */
     }
     Node removedNode = sentinel.next; /* even without if, these two lines won't crash */
     sentinel.next = removedNode.next;
@@ -170,9 +174,10 @@ public class LinkedListDeque<T> {
     if (isEmpty()) {
       return null;
     }
-    Node removedNode = sentinel.prev;
-    sentinel.prev.prev.next = sentinel; /* removedNode.prev.next = sentinel */
-    sentinel.prev = sentinel.prev.prev; /* sentinel.prev = removedNode.prev */
+    /** Usually, when using a circular sentinel and the list is empty, both sides of the equation are pointing at the sentinel! Just do useless work */
+    Node removedNode = sentinel.prev; /** Use some local variables */
+    removedNode.prev.next = sentinel;
+    sentinel.prev = removedNode.prev; /* sentinel.prev = removedNode.prev */
     size -= 1;
     return removedNode.item;
   }
@@ -193,7 +198,4 @@ public class LinkedListDeque<T> {
       p = p.next;
     }
   }
-
-
-
 }

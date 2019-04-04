@@ -111,6 +111,8 @@ public class LinkedListDequeTest {
     L.addFirst(2);
     L.addFirst(1);
     assertEquals(Integer.valueOf(3), L.get(2));
+    assertEquals(null, L.get(3));
+    assertEquals(null, L.get(4));
   }
 
   @Test
@@ -122,6 +124,8 @@ public class LinkedListDequeTest {
     L.addFirst(2);
     L.addFirst(1);
     assertEquals(Integer.valueOf(3), L.getRecursive(2));
+    assertEquals("hello", null, L.getRecursive(3));
+    assertEquals("hi", null, L.getRecursive(4));
   }
 
 
