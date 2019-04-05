@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by JunhaoW on 04/04/2019
@@ -99,6 +100,45 @@ public class ArrayDequeTest {
       D.addFirst(7);
       // change the return type of printDeque before testing
       // assertEquals("7 8 9 1", D.printDeque());
+    }
+  }
+
+  @Test
+  public void testRemove() {
+    ArrayDeque<Integer> D = new ArrayDeque<>();
+    if (D.getLength() == 4) {
+      /** null */
+      Integer item = D.removeFirst();
+      assertEquals(null, item);
+
+      D = new ArrayDeque<>();
+      // [0][1][7][8]
+      D.addFirst(1);
+      D.addLast(7);
+      D.addLast(8);
+      D.removeFirst();
+      assertEquals(null, D.getItem(1));
+      assertEquals(Integer.valueOf(7), D.getItem(2));
+      assertEquals(Integer.valueOf(8), D.getItem(3));
+      D.removeFirst();
+      D.removeFirst();
+      assertEquals(null, D.getItem(2));
+      assertEquals(null, D.getItem(3));
+      D.addFirst(1);
+      // [ ][ ][ ][1]
+      D.addLast(2);
+      // [2][ ][ ][1]
+      D.addLast(3);
+      // [2][3][ ][1]
+      assertEquals(Integer.valueOf(2), D.getItem(0));
+      assertEquals(Integer.valueOf(3), D.getItem(1));
+      assertEquals(Integer.valueOf(1), D.getItem(3));
+      D.removeFirst();
+      D.removeFirst();
+      // D.removeFirst();
+      assertEquals(null, D.getItem(0));
+      assertNotEquals(null, D.getItem(1));
+      assertEquals(null, D.getItem(3));
     }
   }
 }

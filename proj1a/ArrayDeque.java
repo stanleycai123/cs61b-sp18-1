@@ -89,12 +89,30 @@ public class ArrayDeque<T> {
 
   /** removeFirst */
   public T removeFirst() {
-    return null;
+    /** Invariant: nextFirst always points to the left of the first element */
+    if (size == 0) {
+      return null;
+    }
+    nextFirst = (nextFirst + 1) % items.length;
+    T removedItem = items[nextFirst];
+    items[nextFirst] = null; /* since it is a reference */
+    size--;
+    return removedItem;
   }
 
   /** removeLast */
   public T removeLast() {
-    return null;
+    //  0  1  2  3
+    // [ ][x][x][x]
+    // [ ][ ][ ][ ]
+    if (size == 0) {
+      return null;
+    }
+    nextLast = ((nextLast - 1) + items.length) % items.length;
+    T removedItem = items[nextLast];
+    items[nextLast] = null;
+    size--;
+    return removedItem;
   }
 
   /** printDeque */
