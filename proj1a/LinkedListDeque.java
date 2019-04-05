@@ -87,7 +87,7 @@ public class LinkedListDeque<T> {
     // if (isEmpty()) { return null; }
     /* could be removed, since we set sentinel.item == null */
     Node p = sentinel.next; /* the 1st real node */
-    while (index > 0 && p != sentinel) { /* p != sentinel stops outofbound */
+    while (index > 0 && p != sentinel) { /* p != sentinel stops outofbound cases */
       p = p.next;
       index--;
     }
@@ -96,9 +96,6 @@ public class LinkedListDeque<T> {
 
   /** getRecursive */
   public T getRecursive(int index) {
-    // if (isEmpty()) {  /* because in get, if (this.sentinel == null) return null; */
-    //   return null;    /* and emptyList -> firstNode == sentinel */
-    // }
     /** sentinel.next won't be null */
     Node firstNode = sentinel.next;
     return firstNode.get(index); /* Node.get */

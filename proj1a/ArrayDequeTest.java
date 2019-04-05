@@ -1,7 +1,6 @@
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by JunhaoW on 04/04/2019
@@ -109,7 +108,7 @@ public class ArrayDequeTest {
     if (D.getLength() == 4) {
       /** null */
       Integer item = D.removeFirst();
-      assertEquals(null, item);
+      assertNull(item);
 
       D = new ArrayDeque<>();
       // [0][1][7][8]
@@ -117,13 +116,13 @@ public class ArrayDequeTest {
       D.addLast(7);
       D.addLast(8);
       D.removeFirst();
-      assertEquals(null, D.getItem(1));
+      assertNull(D.getItem(1));
       assertEquals(Integer.valueOf(7), D.getItem(2));
       assertEquals(Integer.valueOf(8), D.getItem(3));
       D.removeFirst();
       D.removeFirst();
-      assertEquals(null, D.getItem(2));
-      assertEquals(null, D.getItem(3));
+      assertNull(D.getItem(2));
+      assertNull(D.getItem(3));
       D.addFirst(1);
       // [ ][ ][ ][1]
       D.addLast(2);
@@ -136,9 +135,39 @@ public class ArrayDequeTest {
       D.removeFirst();
       D.removeFirst();
       // D.removeFirst();
-      assertEquals(null, D.getItem(0));
-      assertNotEquals(null, D.getItem(1));
-      assertEquals(null, D.getItem(3));
+      assertNull(D.getItem(0));
+      assertNotNull(D.getItem(1));
+      assertNull(D.getItem(3));
+    }
+  }
+
+  @Test
+  public void testGet() {
+    ArrayDeque<Integer> D = new ArrayDeque<>();
+    if (D.getLength() == 4) {
+      /* empty */
+      //  0  1  2  3
+      // [ ][ ][ ][ ]
+      assertNull(D.get(0));
+      assertNull(D.get(1));
+      D.addFirst(1);
+      assertEquals(Integer.valueOf(1), D.get(0));
+      D.addFirst(2);
+      assertEquals(Integer.valueOf(2), D.get(0));
+      assertEquals(Integer.valueOf(1), D.get(1));
+      D.addFirst(3);
+      assertEquals(Integer.valueOf(3), D.get(0));
+      assertEquals(Integer.valueOf(2), D.get(1));
+      assertEquals(Integer.valueOf(1), D.get(2));
+      D.addLast(4);
+      assertEquals(Integer.valueOf(3), D.get(0));
+      assertEquals(Integer.valueOf(2), D.get(1));
+      assertEquals(Integer.valueOf(1), D.get(2));
+      assertEquals(Integer.valueOf(4), D.get(3));
+
+      /* out of bound */
+      assertNull(D.get(5));
+      assertNull(D.get(20));
     }
   }
 }

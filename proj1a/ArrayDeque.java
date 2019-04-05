@@ -33,8 +33,17 @@ public class ArrayDeque<T> {
   }
 
   /** get */
-  public int get(int index) {
-    return 0;
+  public T get(int index) {
+    if (index < 0 || index >= size) {
+      return null;
+    }
+
+    int oldIndex = nextFirst + 1; /* will be MODed */
+    while (index > 0) {
+      oldIndex++;
+      index--;
+    }
+    return items[oldIndex % items.length];
   }
 
   /** resize */
@@ -89,7 +98,7 @@ public class ArrayDeque<T> {
 
   /** removeFirst */
   public T removeFirst() {
-    /** Invariant: nextFirst always points to the left of the first element */
+    /** Invariant: nextFirst always points to the previous position of the first element */
     if (size == 0) {
       return null;
     }
