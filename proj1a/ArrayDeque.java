@@ -32,12 +32,16 @@ public class ArrayDeque<T> {
     return size;
   }
 
+  /** isEmpty */
+  public boolean isEmpty() {
+    return (size == 0);
+  }
+
   /** get */
   public T get(int index) {
     if (index < 0 || index >= size) {
       return null;
     }
-
     int oldIndex = nextFirst + 1; /* will be MODed */
     while (index > 0) {
       oldIndex++;
@@ -99,7 +103,7 @@ public class ArrayDeque<T> {
   /** removeFirst */
   public T removeFirst() {
     /** Invariant: nextFirst always points to the previous position of the first element */
-    if (size == 0) {
+    if (isEmpty()) {
       return null;
     }
     nextFirst = (nextFirst + 1) % items.length;
@@ -114,7 +118,7 @@ public class ArrayDeque<T> {
     //  0  1  2  3
     // [ ][x][x][x]
     // [ ][ ][ ][ ]
-    if (size == 0) {
+    if (isEmpty()) {
       return null;
     }
     nextLast = ((nextLast - 1) + items.length) % items.length;

@@ -4,12 +4,6 @@
 
 public class LinkedListDeque<T> {
 
-  /** main */
-  public static void main(String[] args) {
-    LinkedListDeque<Integer> D = new LinkedListDeque<>(5);
-    System.out.println(D);
-  }
-
   /**
    * Node
    */
@@ -43,8 +37,8 @@ public class LinkedListDeque<T> {
 
 
   /** Field */
-  public int size;
-  public Node sentinel; /** Circular Sentinel */
+  private int size;
+  private Node sentinel; /** Circular Sentinel */
 
 
   /**
@@ -56,14 +50,6 @@ public class LinkedListDeque<T> {
     sentinel.prev = sentinel;
     sentinel.next = sentinel;
     size = 0;
-  }
-
-  /** One-Node Deque */
-  public LinkedListDeque(T item) {
-    this();
-    sentinel.next = new Node(item, sentinel, sentinel);
-    sentinel.prev = sentinel.next;
-    size = 1;
   }
 
 
@@ -109,36 +95,18 @@ public class LinkedListDeque<T> {
   public void addFirst(T item) {
     Node newNode = new Node(item, sentinel, sentinel.next);
     sentinel.next = newNode;
-    if (size == 0) {
-      sentinel.prev = newNode;
-    } /* Otherwise, no need to change sentinel.prev */
+    newNode.next.prev = newNode;
     size += 1;
   }
 
   /** addLast */
   public void addLast(T item) {
-    /** Remember DOUBLY linked list! */
-    // Node p = sentinel;
-    // int count = 0;
-    // while (count < size) {
-    //   count += 1;
-    //   p = p.next;
-    // }
-    // p.next = new Node(item, p, sentinel);
-    // sentinel.prev = p.next;
-    /* if size == 0, p.next == sentinel.next */
-    /* if size == 1, p.next == sentinel.next.next */
-    /** If there is no sentinel, you need to add "if (first == null)" */
-    /** first.prev will crash if first is null */
-    // sentinel.prev = new Node(item, sentinel.prev.prev, sentinel);  <- bug: sentinel.prev (old last node)
-
     /** Compatible with empty list */
     Node newNode = new Node(item, sentinel.prev, sentinel);
     sentinel.prev = newNode;
     newNode.prev.next = newNode;
     size += 1;
   }
-
 
   /**
    * Remove
@@ -157,24 +125,13 @@ public class LinkedListDeque<T> {
 
   /** removeLast */
   public T removeLast() {
-    // if (isEmpty()) {
-    //   return null;
-    // }
-    // Node p = sentinel;
-    // int count = 0;
-    // while (count < size) {
-    //   count += 1;
-    //   p = p.next;
-    // }
-    // p.prev.next = p.next; /* p.prev.next = sentinel */
-    // p.next.prev = p.prev; /* sentinel.prev = p.prev */
     if (isEmpty()) {
       return null;
     }
     /** Usually, when using a circular sentinel and the list is empty, both sides of the equation are pointing at the sentinel! Just do useless work */
     Node removedNode = sentinel.prev; /** Use some local variables */
     removedNode.prev.next = sentinel;
-    sentinel.prev = removedNode.prev; /* sentinel.prev = removedNode.prev */
+    sentinel.prev = removedNode.prev;
     size -= 1;
     return removedNode.item;
   }
