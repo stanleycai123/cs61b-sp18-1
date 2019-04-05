@@ -99,7 +99,18 @@ public class ArrayDeque<T> {
 
   /** printDeque */
   public void printDeque() {
-
+    /* As in resize  */
+    int oldIndex = nextFirst + 1;
+    int count = 0;
+    String str = "";
+    while (count < size) {
+      T val = items[oldIndex % size];
+      str += count == size - 1 ? val : (val + " ");
+      oldIndex++;
+      count++;
+    }
+    System.out.println(str);
+    // return str;
   }
 
   /**

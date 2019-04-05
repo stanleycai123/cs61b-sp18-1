@@ -65,7 +65,7 @@ public class ArrayDequeTest {
   public void testAddFirstLast() {
     ArrayDeque<Integer> D1 = new ArrayDeque<>();
     if (D1.getLength() == 4) {
-      // [9][1][ ][8]
+      // [9][1][7][8]
       D1.addFirst(1);
       assertEquals(Integer.valueOf(1), D1.getItem(1));
       D1.addFirst(9);
@@ -85,6 +85,20 @@ public class ArrayDequeTest {
       assertEquals(Integer.valueOf(5), D2.getItem(0));
       D2.addLast(6);
       assertEquals(Integer.valueOf(6), D2.getItem(1));
+    }
+  }
+
+  @Test
+  public void testPrintDeque() {
+    ArrayDeque<Integer> D = new ArrayDeque<>();
+    if (D.getLength() == 4) {
+      // [9][1][7][8]
+      D.addFirst(1);
+      D.addFirst(9);
+      D.addFirst(8);
+      D.addFirst(7);
+      // change the return type of printDeque before testing
+      // assertEquals("7 8 9 1", D.printDeque());
     }
   }
 }
