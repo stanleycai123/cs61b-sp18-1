@@ -192,4 +192,20 @@ public class ArrayDequeTest {
     D.removeFirst();
     assertNull(D.get(0));
   }
+
+  @Test
+  public void testAddTooMuch() {
+    ArrayDeque<Integer> D = new ArrayDeque<>();
+    for (int i = 1; i <= 10000; ++i) {
+      D.addLast(i);
+    }
+    for (int i = 1; i <= 9999; ++i) {
+      D.removeFirst();
+    }
+    System.out.println(D.getLength());
+    assertEquals(1, D.size());
+    D.removeLast();
+    assertEquals(0, D.size());
+    System.out.println(D.getLength());
+  }
 }

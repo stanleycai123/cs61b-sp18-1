@@ -4,13 +4,19 @@
 
 public class ArrayDeque<T> {
 
+  // private static void main(String[] args) {
+  //   ArrayDeque<Integer> d = new ArrayDeque<>();
+  //   d.addLast(0);
+  //   System.out.println(d.removeFirst());
+  // }
+
   /** Field */
   private int size;
   private int nextFirst;
   private int nextLast;
   private T[] items;
 
-  private int initSize = 8;
+  private int initSize = 4;
 
   /**
    * Constructor
@@ -53,11 +59,6 @@ public class ArrayDeque<T> {
   /** resize */
   private void resize(int capacity) {
 
-    if (capacity < initSize) { /* in case it is too small */
-      resize(initSize);
-      return;
-    }
-
     T[] newItems = (T[]) new Object[capacity];
     //  0  1  2  3  4  5  6  7
     //       [x][x][x][x]       items (copy array)
@@ -74,7 +75,7 @@ public class ArrayDeque<T> {
     int newIndex = startPos; /* newIndex for newItems */
     int count = 0;
     while (count < size) { /* yes! the original size! */
-      newItems[newIndex] = items[oldIndex % size]; /* 3 + 1 = 4, 4 % 4 = 0 */
+      newItems[newIndex] = items[oldIndex % items.length]; /* 3 + 1 = 4, 4 % 4 = 0 */
       oldIndex++; newIndex++;
       count++;
     }
@@ -82,12 +83,13 @@ public class ArrayDeque<T> {
     items = newItems;
     // size = capacity; bug! we don't need to change size!
     nextFirst = startPos - 1;
+    nextFirst = startPos - 1;
     nextLast = newIndex; /* or nextFirst + size */
   }
 
   /** resizeDown */
   private void resizeDown() {
-    resize(size * 2);
+    resize(size * 2 < initSize ? initSize : size * 2);
   }
 
 
@@ -119,7 +121,7 @@ public class ArrayDeque<T> {
       return null;
     }
     /** Resize down */
-    if ((double) size / items.length < 0.25 && size < initSize) {
+    if ((double) size / items.length < 0.25 && items.length > initSize) {
       resizeDown();
     }
 
@@ -139,7 +141,7 @@ public class ArrayDeque<T> {
       return null;
     }
     /** Resize down */
-    if ((double) size / items.length < 0.25 && size < initSize) {
+    if ((double) size / items.length < 0.25 && items.length > initSize) {
       resizeDown();
     }
 
@@ -157,7 +159,7 @@ public class ArrayDeque<T> {
     int count = 0;
     String str = "";
     while (count < size) {
-      T val = items[oldIndex % size];
+      T val = items[oldIndex % items.length];
       str += count == size - 1 ? val : (val + " ");
       oldIndex++;
       count++;
@@ -169,10 +171,10 @@ public class ArrayDeque<T> {
   /**
    * getItem - for testing
    */
-  public T getItem(int index) {
+  private T getItem(int index) {
     return items[index];
   }
-  public int getLength() {
+  private int getLength() {
     return items.length;
   }
 }
