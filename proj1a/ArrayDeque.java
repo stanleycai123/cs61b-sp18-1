@@ -10,7 +10,7 @@ public class ArrayDeque<T> {
   private int nextLast;
   private T[] items;
 
-  private int initSize = 4;
+  private int initSize = 8;
 
   /**
    * Constructor
@@ -51,7 +51,13 @@ public class ArrayDeque<T> {
   }
 
   /** resize */
-  public void resize(int capacity) {
+  private void resize(int capacity) {
+
+    if (capacity < initSize) { /* in case it is too small */
+      resize(initSize);
+      return;
+    }
+
     T[] newItems = (T[]) new Object[capacity];
     //  0  1  2  3  4  5  6  7
     //       [x][x][x][x]       items (copy array)
@@ -78,6 +84,12 @@ public class ArrayDeque<T> {
     nextFirst = startPos - 1;
     nextLast = newIndex; /* or nextFirst + size */
   }
+
+  /** resizeDown */
+  private void resizeDown() {
+    resize(size * 2);
+  }
+
 
   /** addFirst */
   public void addFirst(T item) {
@@ -106,6 +118,11 @@ public class ArrayDeque<T> {
     if (isEmpty()) {
       return null;
     }
+    /** Resize down */
+    if ((double) size / items.length < 0.25) {
+      resizeDown();
+    }
+
     nextFirst = (nextFirst + 1) % items.length;
     T removedItem = items[nextFirst];
     items[nextFirst] = null; /* since it is a reference */
@@ -121,6 +138,11 @@ public class ArrayDeque<T> {
     if (isEmpty()) {
       return null;
     }
+    /** Resize down */
+    if ((double) size / items.length < 0.25) {
+      resizeDown();
+    }
+
     nextLast = ((nextLast - 1) + items.length) % items.length;
     T removedItem = items[nextLast];
     items[nextLast] = null;
@@ -147,10 +169,10 @@ public class ArrayDeque<T> {
   /**
    * getItem - for testing
    */
-  public T getItem(int index) {
+  private T getItem(int index) {
     return items[index];
   }
-  public int getLength() {
+  private int getLength() {
     return items.length;
   }
 }
