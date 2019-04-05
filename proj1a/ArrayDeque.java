@@ -119,7 +119,7 @@ public class ArrayDeque<T> {
       return null;
     }
     /** Resize down */
-    if ((double) size / items.length < 0.25) {
+    if ((double) size / items.length < 0.25 && size < initSize) {
       resizeDown();
     }
 
@@ -139,7 +139,7 @@ public class ArrayDeque<T> {
       return null;
     }
     /** Resize down */
-    if ((double) size / items.length < 0.25) {
+    if ((double) size / items.length < 0.25 && size < initSize) {
       resizeDown();
     }
 
