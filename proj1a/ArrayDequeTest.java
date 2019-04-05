@@ -170,4 +170,26 @@ public class ArrayDequeTest {
       assertNull(D.get(20));
     }
   }
+
+  @Test
+  public void testToZero() {
+    /** Make sure you think carefully about what happens if the data structure
+     * goes from empty, to some non-zero size (e.g. 4 items) back down to zero again,
+     * and then back to some non-zero size.
+     * This is a common oversight. */
+    ArrayDeque<Integer> D = new ArrayDeque<>();
+    D.addFirst(1);
+    D.addFirst(2);
+    D.addFirst(3);
+    D.addFirst(4);
+    D.addFirst(5);
+    D.addLast(6);
+    D.removeFirst();
+    D.removeFirst();
+    D.removeFirst();
+    D.removeFirst();
+    D.removeFirst();
+    D.removeFirst();
+    assertNull(D.get(0));
+  }
 }
