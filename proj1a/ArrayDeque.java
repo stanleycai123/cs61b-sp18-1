@@ -4,12 +4,6 @@
 
 public class ArrayDeque<T> {
 
-  // private static void main(String[] args) {
-  //   ArrayDeque<Integer> d = new ArrayDeque<>();
-  //   d.addLast(0);
-  //   System.out.println(d.removeFirst());
-  // }
-
   /** Field */
   private int size;
   private int nextFirst;
@@ -171,10 +165,10 @@ public class ArrayDeque<T> {
   /**
    * getItem - for testing
    */
-  private T getItem(int index) {
+  public T getItem(int index) {
     return items[index];
   }
-  private int getLength() {
+  public int getLength() {
     return items.length;
   }
 }
