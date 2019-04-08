@@ -30,30 +30,26 @@ public class TestArrayDequeGold {
       } else if (randNum < 0.5) {
         sad.addLast(count);
         ans.addLast(count);
-        Integer expected = ans.get(sad.size() - 1);
         Integer actual = sad.get(sad.size() - 1);
+        Integer expected = ans.get(sad.size() - 1);
         output += "\naddLast(" + count + ")";
         assertEquals(output, expected, actual);
 
       } else if (randNum < 0.75) {
-        Integer x1 = sad.removeFirst();
-        Integer x2 = ans.removeFirst();
-        if (x1 == null || x2 == null) {
+        Integer actual = sad.removeFirst();
+        Integer expected = ans.removeFirst();
+        if (actual == null || expected == null) {
           continue;
         }
-        Integer expected = x1;
-        Integer actual = x2;
         output += "\nremoveFirst()";
         assertEquals(output, expected, actual);
 
       } else {
-        Integer x1 = sad.removeLast();
-        Integer x2 = ans.removeLast();
-        if (x1 == null || x2 == null) {
+        Integer actual = sad.removeLast();
+        Integer expected = ans.removeLast();
+        if (actual == null || expected == null) {
           continue;
         }
-        Integer expected = x1;
-        Integer actual = x2;
         output += "\nremoveLast()";
         assertEquals(output, expected, actual);
       }
