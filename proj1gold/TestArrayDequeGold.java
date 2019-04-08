@@ -24,7 +24,7 @@ public class TestArrayDequeGold {
         ans.addFirst(count);
         // Integer actual = sad.get(0);
         // Integer expected = ans.get(0);
-        // output += "\naddFirst(" + count + ")";
+        output += "\naddFirst(" + count + ")";
         // assertEquals(output, expected, actual);
 
       } else if (randNum < 0.5) {
@@ -32,7 +32,7 @@ public class TestArrayDequeGold {
         ans.addLast(count);
         // Integer actual = sad.get(sad.size() - 1);
         // Integer expected = ans.get(sad.size() - 1);
-        // output += "\naddLast(" + count + ")";
+        output += "\naddLast(" + count + ")";
         // assertEquals(output, expected, actual);
 
       } else if (randNum < 0.75) {
