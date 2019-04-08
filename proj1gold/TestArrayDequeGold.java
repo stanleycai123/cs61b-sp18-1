@@ -22,8 +22,8 @@ public class TestArrayDequeGold {
       if (randNum < 0.25) {
         sad.addFirst(count);
         ans.addFirst(count);
-        Integer expected = ans.get(0);
         Integer actual = sad.get(0);
+        Integer expected = ans.get(0);
         output += "\naddFirst(" + count + ")";
         assertEquals(output, expected, actual);
 
