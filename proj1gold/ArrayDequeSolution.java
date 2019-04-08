@@ -6,27 +6,27 @@ import java.util.LinkedList;
  * supposed ArrayDeque is actually using a LinkedList. SAD!
  */
 public class ArrayDequeSolution<Item> extends LinkedList<Item> {
-    public void printDeque() {
-        System.out.println("dummy");
-    }
+  public void printDeque() {
+    System.out.println("dummy");
+  }
 
-    public Item getRecursive(int i) {
-        return get(i);
-    }
+  public Item getRecursive(int i) {
+    return get(i);
+  }
 
-    public Item removeFirst() {
-        try {
-            return super.removeFirst();
-        } catch (Exception e) {
-            return null;
-        }
+  public Item removeFirst() {
+    try {
+      return super.removeFirst();
+    } catch (Exception e) {
+      return null;
     }
+  }
 
-    public Item removeLast() {
-        try {
-            return super.removeLast();
-        } catch (Exception e) {
-            return null;
-        }
+  public Item removeLast() {
+    try {
+      return super.removeLast();
+    } catch (Exception e) {
+      return null;
     }
+  }
 }
