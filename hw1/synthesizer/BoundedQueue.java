@@ -17,14 +17,14 @@ public interface BoundedQueue<T> extends Iterable<T> {
 
   T peek();
 
-  @Override
-  Iterator<T> iterator();
-
   default boolean isEmpty() {
-    return false;
+    return fillCount() == 0;
   }
 
   default boolean isFull() {
-    return false;
+    return fillCount() == capacity();
   }
+
+  @Override
+  Iterator<T> iterator();
 }

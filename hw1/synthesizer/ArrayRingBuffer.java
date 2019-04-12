@@ -63,16 +63,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     return rb[first % capacity];
   }
 
-  @Override
-  public boolean isEmpty() {
-    return fillCount == 0;
-  }
-
-  @Override
-  public boolean isFull() {
-    return fillCount == capacity;
-  }
-
   /**
    * Iterator
    */
