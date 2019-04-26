@@ -1,7 +1,9 @@
-import java.util.Set;
-import java.util.HashSet;
-import static org.junit.Assert.*;
 import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 
 /** Tests of optional parts of lab 8. */
 public class TestBSTMapExtra {
@@ -28,12 +30,12 @@ public class TestBSTMapExtra {
      * Note for testRemoveRoot:
      *
      * Just checking that c is gone (perhaps incorrectly)
-     * assumes that remove is BST-structure preserving.
+     * assumes that remove is Node-structure preserving.
      *
      * More exhaustive tests could be done to verify
      * implementation of remove, but that would require doing
      * things like checking for inorder vs. preorder swaps,
-     * and is unnecessary in this simple BST implementation.
+     * and is unnecessary in this simple Node implementation.
      */
     @Test
     public void testRemoveRoot() {
@@ -109,9 +111,5 @@ public class TestBSTMapExtra {
         assertTrue(((Integer) noChild.remove('Z')).equals(15));
         assertEquals(0, noChild.size());
         assertEquals(null, noChild.get('Z'));
-    }
-
-    public static void main(String[] args) {
-        jh61b.junit.TestRunner.runTests(TestBSTMapExtra.class);
     }
 }
