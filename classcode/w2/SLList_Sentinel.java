@@ -3,6 +3,7 @@
  */
 
 public class SLList_Sentinel {
+
   private int size;
   private IntNode sentinel; /* The first item (if it exists) is at sentinel.next */
   /* sentinel should not be changed later (after init) */
@@ -13,8 +14,8 @@ public class SLList_Sentinel {
   }
 
   public SLList_Sentinel(int x) {
-    sentinel = new IntNode(63, null);
-    sentinel.next = new IntNode(x, null);
+    sentinel = new IntNode(63, null); /* fake node */
+    sentinel.next = new IntNode(x, null); /* real node */
     size = 1;
   }
 
@@ -80,11 +81,6 @@ public class SLList_Sentinel {
    * .addLast (should be considered when using empty list)
    */
   public void addLast(int x) {
-    /* Code for special case */
-    /*if (first == null) {
-      first = new IntNode(x, null);
-      return;
-    }*/
     IntNode p = sentinel; /* absolutely not null */
     /* p.next == null, if there is an empty list*/
     while (p.next != null) {
@@ -115,22 +111,25 @@ public class SLList_Sentinel {
     return totalSize;
   }
 
+
+
+
   /**
    * Recursive version
    * Tricky. 'cause SLList is not recursive!
    */
   public int size_re() { // public method that uses the private method
-    return size(sentinel.next);
+    return size_re(sentinel.next);
   }
   /** Returns the size of the list that starts at IntNode p (common pattern) */
   /**
    * Private Helper Method
    */
-  private static int size(IntNode p) { /* same name but different signature - overload */
+  private static int size_re(IntNode p) { /* same name but different signature - overload */
     if (p == null) { /* or p.next == null (consider empty list case) */
       return 0;      /* or return 1; */
     }
-    return 1 + size(p.next);
+    return 1 + size_re(p.next);
   }
 
   /**

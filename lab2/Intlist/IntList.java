@@ -79,10 +79,10 @@ public class IntList {
    * *  elements of B.  May modify items of A. Don't use 'new'.
    */
   public static IntList dcatenate(IntList A, IntList B) {
-    IntList p = A;
     if (A == null) {
       return B;
     }
+    IntList p = A;
     while (p.rest != null) {
       p = p.rest;
     }
@@ -95,50 +95,52 @@ public class IntList {
    * dcatenate - recursive version
    */
   public static IntList dcatenate_re(IntList A, IntList B) {
-    if (A == null) {
+    if (A == null) { /* Base case */
       return B;
     }
-    if (A.rest == null) {
-      A.rest = B;
-      return null;
-    }
-    /* A */
-    dcatenate_re(A.rest, B);
+    A.rest = dcatenate_re(A.rest, B);
     return A;
   }
+
+
 
   /**
    * Returns a list consisting of the elements of A followed by the
    * * elements of B.  May NOT modify items of A.  Use 'new'.
    */
   public static IntList catenate(IntList A, IntList B) {
-    IntList M = null;
+    IntList ret = null;
     IntList p = null;
-    if (A != null) {
-      M = new IntList(A.first, null);
-      p = M;
-      A = A.rest;
+
+    if (A != null) { /* Copy A list */
+      ret = new IntList(A.first, null); /* Return val */
+      p = ret; /* The New List */
+      A = A.rest; /* The Old List (ahead of p) */
       while (A != null) {
         p.rest = new IntList(A.first, null);
         p = p.rest;
         A = A.rest;
       } /* now p points to the last element of A */
-    } else if (B != null) { /* A == null */
+    }
+
+    if (ret == null && B != null) { /* A == null */
       // if (A == null && B != null) {  /* this line is bug. A is changed */
-      M = new IntList(B.first, null);
-      p = M;
+      // Solution: ret == null or use else if
+      ret = new IntList(B.first, null);
+      p = ret;
       B = B.rest;
     }
-    while (B != null) { /* can't put this block inside the above block */
+
+    while (B != null) { /* Copy B list */
       p.rest = new IntList(B.first, null);
       p = p.rest;
       B = B.rest;
     }
-    return M;
+    return ret;
   }
 
   /**
-   * catenate - recursive
+   * catenate - recursive (destructive)
    */
   public static IntList catenate_re(IntList A, IntList B) {
     if (A == null) {
@@ -152,6 +154,8 @@ public class IntList {
       return new IntList(A.first, catenate_re(A.rest, B));
     }
   }
+
+
 
   /**
    * Osmosis - Practice

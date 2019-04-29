@@ -1,6 +1,4 @@
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
+import javafx.scene.chart.XYChart;
 
 import java.util.ArrayList;
 import java.util.List;
