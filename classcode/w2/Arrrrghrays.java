@@ -18,7 +18,7 @@ public class Arrrrghrays {
     };
     print(pieces);
     Piece[][] lat = solvePuzzle(pieces);
-    print2D(lat);
+    print2D(groupByLat(pieces));
   }
 
   public static void print2D(Piece[][] pieces) {
