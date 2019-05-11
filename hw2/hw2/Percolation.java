@@ -49,6 +49,7 @@ public class Percolation {
    */
   public void open(int row, int col) {
     checkIndex(row, col);
+    if (isOpen(row, col) == true) return;
     grid[row][col] = OPEN; /* just open */
     siteCount += 1;
 
@@ -71,8 +72,11 @@ public class Percolation {
 
   public boolean isFull(int row, int col) {
     checkIndex(row, col);
-
-    return isOpen(row, col) && uf_top.connected(getTop(), ToIndex(row, col));
+    if (N == 1) {
+      return isOpen(0, 0);
+    } else {
+      return isOpen(row, col) && uf_top.connected(getTop(), ToIndex(row, col));
+    }
 
     // if (row == 0) {
     //   return isOpen(row, col); /* open -> FULL; blocked -> Not FULL */
@@ -89,7 +93,11 @@ public class Percolation {
   }
 
   public boolean percolates() {
-    return uf_top_bottom.connected(getTop(), getBottom());
+    if (N == 1) {
+      return isOpen(0, 0);
+    } else {
+      return uf_top_bottom.connected(getTop(), getBottom());
+    }
   }
 
   private int ToIndex(int row, int col) {
@@ -122,6 +130,12 @@ public class Percolation {
   }
 
   public static void main(String[] args) {
+    // test1();
+    // test2();
+    test3();
+  }
+
+  private static void test1() {
     Percolation p = new Percolation(5);
     p.print();
     testOpen(p, 3, 4);
@@ -132,6 +146,23 @@ public class Percolation {
     testOpen(p, 0, 3);
     testOpen(p, 2, 2);
     testOpen(p, 4, 2);
+  }
+
+  private static void test2() {  // test N = 1
+    Percolation p = new Percolation(1);
+    p.print();
+    System.out.println(p.percolates());
+    testOpen(p, 0, 0);
+  }
+
+  private static void test3() { // test N = 2
+    Percolation p = new Percolation(2);
+    p.print();
+    System.out.println(p.percolates());
+    // testOpen(p, 0, 0);
+    testOpen(p, 0, 1);
+    testOpen(p, 1, 1);
+    testOpen(p, 1, 0);
   }
 
   private static void testOpen(Percolation p, int row, int col) {
