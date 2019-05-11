@@ -6,7 +6,7 @@ public class Percolation {
 
   private final static int BLOCKED = 0;
   private final static int OPEN = 1;
-  private final static int FULL = 2;
+  // private final static int FULL = 2;
 
   private final static int[][] DIRECTION = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
@@ -20,7 +20,24 @@ public class Percolation {
     this.N = N;
     this.siteCount = 0;
     this.grid = new int[N][N];
-    this.uf = new WeightedQuickUnionUF(N * N);
+    this.uf = new WeightedQuickUnionUF(N * N + 2);
+    /* 2 extra points - start & end for speeding */
+    setupStartEnd();
+  }
+
+  private int getStart() {
+    return N * N;
+  }
+  private int getEnd() {
+    return N * N + 1;
+  }
+  private void setupStartEnd() {
+    int start = getStart();
+    int end = getEnd();
+    for (int j = 0; j < N; j += 1) {
+      uf.union(ToIndex(0, j), start);
+      uf.union(ToIndex(N - 1, j), end);
+    }
   }
 
   /**
@@ -30,11 +47,7 @@ public class Percolation {
    */
   public void open(int row, int col) {
     checkIndex(row, col);
-    if (row == 0) {
-      grid[row][col] = FULL; /* water */
-    } else {
-      grid[row][col] = OPEN; /* just open */
-    }
+    grid[row][col] = OPEN; /* just open */
     siteCount += 1;
 
     // up / down / left / right
@@ -44,22 +57,30 @@ public class Percolation {
         int ind1 = ToIndex(row, col);
         int ind2 = ToIndex(r, c);
         uf.union(ind1, ind2);
-        /* FULL? */
-        if (isFull(row, col) || isFull(r, c)) {
-          grid[row][col] = grid[r][c] = FULL;
-        }
       }
     }
   }
 
   public boolean isOpen(int row, int col) {
     checkIndex(row, col);
-    return grid[row][col] != BLOCKED;
+    return grid[row][col] == OPEN;
   }
 
   public boolean isFull(int row, int col) {
     checkIndex(row, col);
-    return grid[row][col] == FULL;
+    if (row == 0 || row == N - 1) {
+      return isOpen(row, col); /* open -> FULL; blocked -> Not FULL */
+    }
+    // slow approach
+    /*
+    for (int j = 0; j < N; j++) {
+      int ind1 = ToIndex(0, j);
+      int ind2 = ToIndex(row, col);
+      if (uf.connected(ind1, ind2)) {
+        return true;
+      }
+    } */
+    return uf.connected(getStart(), ToIndex(row, col));
   }
 
   public int numberOfOpenSites() {
@@ -67,7 +88,7 @@ public class Percolation {
   }
 
   public boolean percolates() {
-    return false;
+    return uf.connected(getStart(), getEnd());
   }
 
   private int ToIndex(int row, int col) {
@@ -86,10 +107,14 @@ public class Percolation {
   }
 
   private void print() {
-    System.out.println("Grid: " + N + " x " + N);
     for (int i = 0; i < N; i += 1) {
       for (int j = 0; j < N; j += 1) {
-        System.out.print(grid[i][j] + "  ");
+        if (isFull(i, j)) {
+          System.out.print(2 + "  ");
+        } else {
+          System.out.print(grid[i][j] + "  ");
+        }
+
       }
       System.out.println();
     }
@@ -99,11 +124,18 @@ public class Percolation {
     Percolation p = new Percolation(5);
     p.print();
     testOpen(p, 3, 4);
+    testOpen(p, 4, 4);
+    testOpen(p, 3, 3);
+    testOpen(p, 2, 3);
+    testOpen(p, 1, 3);
+    testOpen(p, 0, 3);
+    testOpen(p, 2, 2);
   }
 
   private static void testOpen(Percolation p, int row, int col) {
     p.open(row, col);
     System.out.println("Opened: " + "( " + row + ", " + col + " )");
     p.print();
+    System.out.println("Percolated: " + p.percolates());
   }
 }
