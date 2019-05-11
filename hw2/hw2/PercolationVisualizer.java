@@ -16,12 +16,9 @@
  *
  ******************************************************************************/
 package hw2;
-import java.awt.Font;
-
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdDraw;
-
 public class PercolationVisualizer {
+  public static void draw(Percolation perc, int n) {
+  }
 /*
     // delay in miliseconds (controls animation speed)
     private static final int DELAY = 100;
