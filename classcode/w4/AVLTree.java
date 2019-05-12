@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 /**
  * Created by JunhaoW on 05/11/2019
  * Reference: https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/AVLTreeST.java.html
@@ -139,7 +141,6 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
       delete(key); return;
     }
     root = put(root, key, val);
-    assert check();
   }
 
   /**
@@ -236,4 +237,90 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
     h.height = 1 + Math.max(height(h.left), height(h.right));
     return h;
   }
+
+  /**
+   * Removes the specified key and its associated value from the symbol table
+   * @param key the key
+   * @throws IllegalArgumentException if {@code key} is {@code null}
+   */
+  public void delete(Key key) {
+    if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+    if (!contains(key)) return;
+    root = delete(root, key);
+  }
+
+  /**
+   * Removes the specified key and its associated value from the symbol table
+   * @param x the subtree
+   * @param key the key
+   * @return the updated subtree
+   */
+  private Node delete(Node x, Key key) {
+    int cmp = key.compareTo(x.key);
+    if (cmp < 0) {
+      x.left = delete(x.left, key);
+    }
+    else if (cmp > 0) {
+      x.right = delete(x.right, key);
+    }
+    else {
+      if (x.left == null) {
+        return x.right; /* x.right might be null too */
+      }
+      else if (x.right == null) {
+        return x.left;
+      }
+      else {
+        Node y = x;
+        x = min(y.right);
+        x.left = y.left;
+        x.right = deleteMin(y.right);
+      }
+    }
+    x.size = 1 + size(x.left) + size(x.right);
+    x.height = 1 + Math.max(height(x.left), height(x.right));
+    return balance(x);
+  }
+
+  /**
+   * Removes the smallest key and associated value from the symbol table
+   * @throws java.util.NoSuchElementException if the symbol table is empty
+   */
+  public void deleteMin() {
+    if (isEmpty()) throw new NoSuchElementException();
+    root = deleteMin(root);
+  }
+
+  /**
+   * @param x the subtree
+   * @return the updated subtree
+   */
+  private Node deleteMin(Node x) {
+    if (x == null) return x.right; /* x.key is the smallest */
+    x.left = deleteMin(x.left);
+    x.size = 1 + size(x.left) + size(x.right);
+    x.height = 1 + Math.max(height(x.left), height(x.right));
+    return balance(x);
+  }
+
+  /**
+   * Returns the smallest key in the symbol table.
+   * @return the smallest key in the symbol table
+   * @throws NoSuchElementException if the symbol table is empty
+   */
+  public Key min() {
+    if (isEmpty()) throw new NoSuchElementException();
+    return min(root).key;
+  }
+
+  /**
+   * Returns the node with the smallest key in the subtree.
+   * @param x the subtree
+   * @return the node with the smallest key in the subtree
+   */
+  private Node min(Node x) {
+    if (x.left == null) return x; /* x.key is the smallest */
+    return min(x.left);
+  }
+
 }
