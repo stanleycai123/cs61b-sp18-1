@@ -187,28 +187,41 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
    * hash
    */
   private int hash(K key) {
-    return hash(key, this.M);
-  }
-
-  private int hash(K key, int mod) {
-    return (key.hashCode() & 0x7FFFFFFF) % mod;
+    return (key.hashCode() & 0x7FFFFFFF) % M;
   }
 
   /**
    * resize
    */
+  /** This approach needs extra hash function, not elegant*/
+  // private int hash(K key, int mod) {
+    // return (key.hashCode() & 0x7FFFFFFF) % mod;
+  // }
+  // private void resize(int new_M) {
+  //   MyLinkedList<K, V>[] newBuckets = initBuckets(new_M);
+  //
+  //
+  //   for (K key : allKeys) { // or: this
+  //     V val = get(key);  /* using old M */
+  //     int newNum = hash(key, new_M);
+  //     MyLinkedList<K, V> L = newBuckets[newNum];
+  //     L.put(key, val);
+  //   }
+  //   this.M = new_M;
+  //   this.buckets = newBuckets;
+  // }
+
+  // Better solution -
   private void resize(int new_M) {
-    MyLinkedList<K, V>[] newBuckets = initBuckets(new_M);
+    MyHashMap<K, V> newMap = new MyHashMap<>(new_M, loadFactor); /* Just creating a new map instead of new buckets variable */
 
-
-    for (K key : allKeys) { // or: this
-      V val = get(key);  /* using old M */
-      int newNum = hash(key, new_M);
-      MyLinkedList<K, V> L = newBuckets[newNum];
-      L.put(key, val);
+    for (K key : allKeys) {
+      V val = get(key);
+      newMap.put(key, val);
     }
-    this.M = new_M;
-    this.buckets = newBuckets;
+
+    this.M = newMap.M;
+    this.buckets = newMap.buckets;
   }
 
   /**
