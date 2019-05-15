@@ -20,6 +20,7 @@ public class OomageTestUtility {
         for (Oomage o : oomages) {
             /* 0111 1111 1111 1111 1111 1111 1111 1111 */
             int bucketNum = (o.hashCode() & 0x7FFFFFFF) % M;
+            int a = 2147483648 & 0x7FFFFFFF;
             // System.out.println(bucketNum);
             buckets[bucketNum] += 1;
         }
