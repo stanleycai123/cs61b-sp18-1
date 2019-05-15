@@ -34,6 +34,21 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
       return size;
     }
 
+    public V remove(K key) {
+      if (size == 0) return null;
+      Entry p = sentinel.next;
+      while (p != sentinel) {
+        if (p.key.equals(key)) {
+          p.prev.next = p.next;
+          p.next.prev = p.prev;
+          size -= 1;
+          return p.val;
+        }
+        p = p.next;
+      }
+      return null;
+    }
+
     public void removeAll() {
       sentinel.prev = sentinel.next = null;
       size = 0;
@@ -252,13 +267,18 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
   public void put(K key, V val) {
     if (key == null) throw new IllegalArgumentException();
 
+    if (val == null) {
+      remove(key);
+      return;
+    }
+
     if (N / M >= loadFactor) {
       // resize
       resize(M * 2);
     }
 
     int num = hash(key);
-    MyLinkedList L = buckets[num];
+    MyLinkedList<K, V> L = buckets[num];
     if (L.put(key, val)) {
       N += 1;
       allKeys.add(key);
@@ -271,12 +291,21 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
    */
   @Override
   public V remove(K key) {
-    throw new UnsupportedOperationException();
+    return remove(key, null);
   }
 
   @Override
   public V remove(K key, V value) {
-    throw new UnsupportedOperationException();
+
+    int num = hash(key);
+    MyLinkedList<K, V> L = buckets[num];
+    if (L.contains(key)) {
+      // remove
+      V val = L.remove(key);
+      N -= 1;
+      return val;
+    }
+    return null;
   }
 
   @Override
