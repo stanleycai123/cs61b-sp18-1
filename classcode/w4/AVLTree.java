@@ -82,12 +82,12 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Returns the value associated with the given key.
-   * @param key the key
-   * @return the value associated with the given key if the key is in the
-   *         symbol table and {@code null} if the key is not in the
+   * Returns the value associated with the given item.
+   * @param key the item
+   * @return the value associated with the given item if the item is in the
+   *         symbol table and {@code null} if the item is not in the
    *         symbol table
-   * @throws IllegalArgumentException if {@code key} is {@code null}
+   * @throws IllegalArgumentException if {@code item} is {@code null}
    */
   public Value get(Key key) {
     if (key == null) throw new IllegalArgumentException("argument to get() is null");
@@ -97,12 +97,12 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Returns value associated with the given key in the subtree or
-   * {@code null} if no such key
+   * Returns value associated with the given item in the subtree or
+   * {@code null} if no such item
    * @param x the subtree
-   * @param key the key
-   * @return value associated with the given key in the subtree or
-   *         {@code null} if no such key
+   * @param key the item
+   * @return value associated with the given item in the subtree or
+   *         {@code null} if no such item
    */
   private Node get(Node x, Key key) {
     if (x == null) return null;
@@ -116,24 +116,24 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Checks if the symbol table contains the given key.
-   * @param key the key
-   * @return {@code true} if the symbol table contains {@code key}
+   * Checks if the symbol table contains the given item.
+   * @param key the item
+   * @return {@code true} if the symbol table contains {@code item}
    *         and {@code false} otherwise
-   * @throws IllegalArgumentException if {@code key} is {@code null}
+   * @throws IllegalArgumentException if {@code item} is {@code null}
    */
   public boolean contains(Key key) {
     return get(key) != null;
   }
 
   /**
-   * Inserts the specified key-value pair into the symbol table,
+   * Inserts the specified item-value pair into the symbol table,
    * overwriting the old value with the new value if the symbol table already
-   * contains the specified key. Deletes the key if the specified value
+   * contains the specified item. Deletes the item if the specified value
    * is {@code null}
-   * @param key the key
+   * @param key the item
    * @param val the value
-   * @throws IllegalArgumentException if {@code key} is {@code null}
+   * @throws IllegalArgumentException if {@code item} is {@code null}
    */
   public void put(Key key, Value val) {
     if (key == null) throw new IllegalArgumentException("first argument to put() is null");
@@ -146,7 +146,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   /**
    * Insert Helper
    * @param x the subtree
-   * @param key the key
+   * @param key the item
    * @param val the value
    * @return the subtree
    */
@@ -176,14 +176,14 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   private Node balance(Node x) {
     // RR, RL
     if (balanceFactor(x) < -1) {
-      if (balanceFactor(x.right) > 0) { // or if (key < x.right.key)
+      if (balanceFactor(x.right) > 0) { // or if (item < x.right.item)
         x.right = rotateRight(x.right); // RL
       }
       x = rotateLeft(x); // RR
     }
     // LL, LR
     else if (balanceFactor(x) > 1) {
-      if (balanceFactor(x.left) < 0) { // or if (key > x.left.key)
+      if (balanceFactor(x.left) < 0) { // or if (item > x.left.item)
         x.left = rotateLeft(x.left); // LR
       }
       x = rotateRight(x); // LL
@@ -239,9 +239,9 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Removes the specified key and its associated value from the symbol table
-   * @param key the key
-   * @throws IllegalArgumentException if {@code key} is {@code null}
+   * Removes the specified item and its associated value from the symbol table
+   * @param key the item
+   * @throws IllegalArgumentException if {@code item} is {@code null}
    */
   public void delete(Key key) {
     if (key == null) throw new IllegalArgumentException("argument to delete() is null");
@@ -250,9 +250,9 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Removes the specified key and its associated value from the symbol table
+   * Removes the specified item and its associated value from the symbol table
    * @param x the subtree
-   * @param key the key
+   * @param key the item
    * @return the updated subtree
    */
   private Node delete(Node x, Key key) {
@@ -283,7 +283,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Removes the smallest key and associated value from the symbol table
+   * Removes the smallest item and associated value from the symbol table
    * @throws java.util.NoSuchElementException if the symbol table is empty
    */
   public void deleteMin() {
@@ -296,7 +296,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
    * @return the updated subtree
    */
   private Node deleteMin(Node x) {
-    if (x == null) return x.right; /* x.key is the smallest */
+    if (x == null) return x.right; /* x.item is the smallest */
     x.left = deleteMin(x.left);
     x.size = 1 + size(x.left) + size(x.right);
     x.height = 1 + Math.max(height(x.left), height(x.right));
@@ -304,8 +304,8 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Returns the smallest key in the symbol table.
-   * @return the smallest key in the symbol table
+   * Returns the smallest item in the symbol table.
+   * @return the smallest item in the symbol table
    * @throws NoSuchElementException if the symbol table is empty
    */
   public Key min() {
@@ -314,12 +314,12 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Returns the node with the smallest key in the subtree.
+   * Returns the node with the smallest item in the subtree.
    * @param x the subtree
-   * @return the node with the smallest key in the subtree
+   * @return the node with the smallest item in the subtree
    */
   private Node min(Node x) {
-    if (x.left == null) return x; /* x.key is the smallest */
+    if (x.left == null) return x; /* x.item is the smallest */
     return min(x.left);
   }
 

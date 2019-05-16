@@ -15,24 +15,24 @@
 
 /**
  * The {@code BTree} class represents an ordered symbol table of generic
- * key-value pairs.
+ * item-value pairs.
  * It supports the <em>put</em>, <em>get</em>, <em>contains</em>,
  * <em>size</em>, and <em>is-empty</em> methods.
  * A symbol table implements the <em>associative array</em> abstraction:
- * when associating a value with a key that is already in the symbol table,
+ * when associating a value with a item that is already in the symbol table,
  * the convention is to replace the old value with the new value.
  * Unlike {@link java.util.Map}, this class uses the convention that
  * values cannot be {@code null}—setting the
- * value associated with a key to {@code null} is equivalent to deleting the key
+ * value associated with a item to {@code null} is equivalent to deleting the item
  * from the symbol table.
  * <p>
  * This implementation uses a B-tree. It requires that
- * the key type implements the {@code Comparable} interface and calls the
+ * the item type implements the {@code Comparable} interface and calls the
  * {@code compareTo()} and method to compare two keys. It does not call either
  * {@code equals()} or {@code hashCode()}.
  * The <em>get</em>, <em>put</em>, and <em>contains</em> operations
  * each make log<sub><em>m</em></sub>(<em>n</em>) probes in the worst case,
- * where <em>n</em> is the number of key-value pairs
+ * where <em>n</em> is the number of item-value pairs
  * and <em>m</em> is the branching factor.
  * The <em>size</em>, and <em>is-empty</em> operations take constant time.
  * Construction takes constant time.
@@ -52,7 +52,7 @@ public class BTree<Key extends Comparable<Key>, Value> {
 
   private Node root;       // root of the B-tree
   private int height;      // height of the B-tree
-  private int n;           // number of key-value pairs in the B-tree
+  private int n;           // number of item-value pairs in the B-tree
 
   // helper B-tree node data type
   private static final class Node { /* m-node */
@@ -67,9 +67,9 @@ public class BTree<Key extends Comparable<Key>, Value> {
   }
 
   /* Remember the array size is M */
-  // Internal nodes: Only use key and next
-  // External nodes: Only use key and value
-  private static class Entry { /* think of it as an entrance to a child with key & value */
+  // Internal nodes: Only use item and next
+  // External nodes: Only use item and value
+  private static class Entry { /* think of it as an entrance to a child with item & value */
     private Comparable key;
     private final Object val;
     private Node next;     // helper field to iterate over array entries
@@ -98,9 +98,9 @@ public class BTree<Key extends Comparable<Key>, Value> {
   }
 
   /**
-   * Returns the number of key-value pairs in this symbol table.
+   * Returns the number of item-value pairs in this symbol table.
    *
-   * @return the number of key-value pairs in this symbol table
+   * @return the number of item-value pairs in this symbol table
    */
   public int size() {
     return n;
@@ -117,12 +117,12 @@ public class BTree<Key extends Comparable<Key>, Value> {
 
 
   /**
-   * Returns the value associated with the given key.
+   * Returns the value associated with the given item.
    *
-   * @param key the key
-   * @return the value associated with the given key if the key is in the symbol table
-   * and {@code null} if the key is not in the symbol table
-   * @throws IllegalArgumentException if {@code key} is {@code null}
+   * @param key the item
+   * @return the value associated with the given item if the item is in the symbol table
+   * and {@code null} if the item is not in the symbol table
+   * @throws IllegalArgumentException if {@code item} is {@code null}
    */
   public Value get(Key key) {
     if (key == null) throw new IllegalArgumentException("argument to get() is null");
@@ -151,16 +151,16 @@ public class BTree<Key extends Comparable<Key>, Value> {
 
 
   /**
-   * Inserts the key-value pair into the symbol table, overwriting the old value
-   * with the new value if the key is already in the symbol table.
-   * If the value is {@code null}, this effectively deletes the key from the symbol table.
+   * Inserts the item-value pair into the symbol table, overwriting the old value
+   * with the new value if the item is already in the symbol table.
+   * If the value is {@code null}, this effectively deletes the item from the symbol table.
    *
-   * @param key the key
+   * @param key the item
    * @param val the value
-   * @throws IllegalArgumentException if {@code key} is {@code null}
+   * @throws IllegalArgumentException if {@code item} is {@code null}
    */
   public void put(Key key, Value val) {
-    if (key == null) throw new IllegalArgumentException("argument key to put() is null");
+    if (key == null) throw new IllegalArgumentException("argument item to put() is null");
     Node u = insert(root, key, val, height);
     n++;
     if (u == null) return;

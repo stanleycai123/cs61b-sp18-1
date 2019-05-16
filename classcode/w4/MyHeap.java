@@ -2,20 +2,20 @@
  * Created by JunhaoW on 05/14/2019
  */
 
-public class MyHeap <Key extends Comparable> {
+public class MyHeap <Item extends Comparable<Item>> {
 
   private Node root;
 
   /** Node class */
   private class Node {
-    Key key;
+    Item item;
     Node left;
     Node right;
     int size;
     int height;
 
-    public Node(Key k) {
-      key = k;
+    public Node(Item k) {
+      item = k;
       left = null;
       right = null;
       size = 1;
@@ -46,32 +46,32 @@ public class MyHeap <Key extends Comparable> {
   }
 
   /**
-   * Add a new key
+   * Add a new item
    * @example
    * 1) x = root = null, 0 node
    * 2) x = root, 1 node (with 2 null children)
    * 3) x = root, 2 nodes (with left child)
    */
-  public void add(Key key) {
-    root = add(root, key);
+  public void add(Item item) {
+    root = add(root, item);
   }
 
-  private Node add(Node x, Key key) { // helper method
+  private Node add(Node x, Item item) { // helper method
     if (x == null) {
-      return new Node(key);
+      return new Node(item);
     }
 
     // go to left - it's not full
     if (x.left == null || isBottomFull(x.left, x.height) == false) {
-      x.left = add(x.left, key);
+      x.left = add(x.left, item);
     }
     // go to right
     else if (x.right == null || isBottomFull(x.right, x.height) == false) {
-      x.right = add(x.right, key);
+      x.right = add(x.right, item);
     }
     // both full - insert to the left-most position at a new level
     else {
-      x.left = add(x.left, key);
+      x.left = add(x.left, item);
     } /* can't be both empty */
 
     // Don't write code like: x.size = 1 + x.left.size + x.right.size;
@@ -121,10 +121,10 @@ public class MyHeap <Key extends Comparable> {
    */
   private Node promote(Node x) {
     if (x == null) return null;
-    if (x.left != null && x.left.key.compareTo(x.key) < 0) {
+    if (x.left != null && x.left.item.compareTo(x.item) < 0) {
       swap(x, x.left);
     }
-    if (x.right != null && x.right.key.compareTo(x.key) < 0) {
+    if (x.right != null && x.right.item.compareTo(x.item) < 0) {
       swap(x, x.right);
     }
     return x;
@@ -134,15 +134,15 @@ public class MyHeap <Key extends Comparable> {
   /**
    * getSmallest & remove!
    */
-  public Key getSmallest() {
+  public Item getSmallest() {
     if (root == null) return null;
-    Key theSmallestKey = root.key;
+    Item theSmallestItem = root.item;
     root = getSmallest(root);
 
     // demote the root
     demote(root);
 
-    return theSmallestKey;
+    return theSmallestItem;
   }
 
   private Node getSmallest(Node x) { // helper method
@@ -150,7 +150,7 @@ public class MyHeap <Key extends Comparable> {
     // reach a leaf node or size == 1
     if (x.left == null && x.right == null) {
       // replace the root
-      root.key = x.key;
+      root.item = x.item;
       return null; // remove
     }
 
@@ -193,7 +193,7 @@ public class MyHeap <Key extends Comparable> {
     // Get the smallest. A (parent) - B - C
     // Why? We know A is not the smallest because checkProperty() wasn't passed.
     // So if we find the min(B, C), the min is definitely the min of A, B, and C.
-    if (x.left.key.compareTo(x.right.key) < 0) { // left < right => goto left
+    if (x.left.item.compareTo(x.right.item) < 0) { // left < right => goto left
       swap(x, x.left);
       demote(x.left);
     } else { // left >= right => goto right
@@ -206,16 +206,16 @@ public class MyHeap <Key extends Comparable> {
     if (x == null) return true; /* when size == 0 */
     if (x.left == null && x.right == null) return true; /* when size == 1 */
     if (x.right == null) { /* when size == 2 */
-      return x.key.compareTo(x.left.key) < 0;
+      return x.item.compareTo(x.left.item) < 0;
     }
     /* when size >= 3 */
-    return x.key.compareTo(x.left.key) < 0 && x.key.compareTo(x.right.key) < 0;
+    return x.item.compareTo(x.left.item) < 0 && x.item.compareTo(x.right.item) < 0;
   }
 
   private void swap(Node x1, Node x2) {
-    Key tmp = x1.key;
-    x1.key = x2.key;
-    x2.key = tmp;
+    Item tmp = x1.item;
+    x1.item = x2.item;
+    x2.item = tmp;
   }
 
 

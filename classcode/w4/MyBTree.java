@@ -27,7 +27,7 @@ public class MyBTree<Key extends Comparable<Key>, Value> {
     /** E.g. for node (8, 9)
      *   0  1  2  3  (index)
      *  x1  8  9 x2
-     *  x1 (key: null, val: null, next: points to the previous key of 8)
+     *  x1 (item: null, val: null, next: points to the previous item of 8)
      *  x2 (temp for splitting)
      */
 
