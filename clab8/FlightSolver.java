@@ -70,7 +70,7 @@ public class FlightSolver {
       int startTime = minStartPQ.get().startTime(); // just peek
       int endTime = minEndPQ.get().endTime();
 
-      if (startTime <= endTime) {
+      if (startTime <= endTime) { // Start-End Overlap: Option 2
         Flight f = minStartPQ.remove();
         tally += f.passengers();
       } else { // including endTime <= startTime
