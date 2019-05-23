@@ -79,7 +79,6 @@ public class MyHeap <Item extends Comparable<Item>> {
     x.height = 1 + Math.max(height(x.left), height(x.right));
 
     x = promote(x);
-
     return x;
   }
 
