@@ -8,10 +8,7 @@ import bearmaps.proj2ab.ArrayHeapMinPQ;
 import bearmaps.proj2ab.ExtrinsicMinPQ;
 import edu.princeton.cs.algs4.Stopwatch;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
   private SolverOutcome outcome;
@@ -19,6 +16,8 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
   private List<Vertex> solution;
   private double timeSpent;
   private Map<Vertex, Double> distTo;
+  private Map<Vertex, Vertex> edgeTo;
+  private int numberOfStates;
 
   private Double getDist(Map<Vertex, Double> D, Vertex v) {
     if (D.containsKey(v)) {
@@ -31,16 +30,19 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     Stopwatch sw = new Stopwatch(); // time
     boolean reachGoal = false;
     solutionWeight = 0.0;
+    numberOfStates = 0;
     solution = new LinkedList<>();
     distTo = new HashMap<>();
+    edgeTo = new HashMap<>();
 
     ExtrinsicMinPQ<Vertex> pq = new ArrayHeapMinPQ<>();
     pq.add(start, input.estimatedDistanceToGoal(start, end));
     distTo.put(start, 0.0);
+    edgeTo.put(start, start);
 
-    while (pq.size() != 0 || sw.elapsedTime() < timeout) {
+    while (pq.size() != 0 && sw.elapsedTime() < timeout) {
       Vertex v = pq.removeSmallest();
-      solution.add(v);
+      numberOfStates += 1;
 
       // reach goal condition
       if (v.equals(end)) {
@@ -57,14 +59,15 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     if (reachGoal) {
       outcome = SolverOutcome.SOLVED;
       solutionWeight = getDist(distTo, end);
+      generatePath(edgeTo, start, end, solution);
     } else {
       if (timeSpent <= timeout) {
         outcome = SolverOutcome.UNSOLVABLE;
       } else {
         outcome = SolverOutcome.TIMEOUT;
       }
-      solution.clear();
       solutionWeight = 0;
+      numberOfStates = 0;
     }
   }
 
@@ -76,6 +79,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
       double w = e.weight();
       if (getDist(distTo, p) + w < getDist(distTo, q)) {
         distTo.put(q, getDist(distTo, p) + w);
+        edgeTo.put(q, p);
         double newDist = getDist(distTo, q) + G.estimatedDistanceToGoal(q, goal);
         if (pq.contains(q)) { // change
           pq.changePriority(q, newDist);
@@ -84,6 +88,15 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         }
       }
     }
+  }
+
+  private void generatePath(Map<Vertex, Vertex> DT, Vertex start, Vertex goal, List<Vertex> path) {
+    Vertex x = goal;
+    while (x != start) {
+      path.add(0, x);
+      x = DT.get(x);
+    }
+    path.add(0, x);
   }
 
   @Override
@@ -106,7 +119,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
   /** The total number of priority queue dequeue operations */
   @Override
   public int numStatesExplored() {
-    return solution.size() - 1;
+    return numberOfStates - 1;
   }
 
   /** Time spent in seconds by the constructor */

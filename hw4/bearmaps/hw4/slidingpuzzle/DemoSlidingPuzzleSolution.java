@@ -1,6 +1,6 @@
 package bearmaps.hw4.slidingpuzzle;
 
-import bearmaps.hw4.LazySolver;
+import bearmaps.hw4.AStarSolver;
 import bearmaps.hw4.ShortestPathsSolver;
 import bearmaps.hw4.SolutionPrinter;
 
@@ -19,7 +19,7 @@ public class DemoSlidingPuzzleSolution {
 
         BoardGraph spg = new BoardGraph();
 
-        ShortestPathsSolver<Board> solver = new LazySolver<>(spg, start, goal, 20);
+        ShortestPathsSolver<Board> solver = new AStarSolver<>(spg, start, goal, 20);
         SolutionPrinter.summarizeSolution(solver, "\n");
     }
 }
