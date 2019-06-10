@@ -41,8 +41,14 @@ public class MergeSort {
    */
   private static <Item extends Comparable> Queue<Queue<Item>>
   makeSingleItemQueues(Queue<Item> items) {
-    // Your code here!
-    return null;
+    Queue<Queue<Item>> qqs = new Queue<>();
+    if (items == null) return qqs;
+    for (Item i : items) {
+      Queue<Item> q = new Queue<>();
+      q.enqueue(i);
+      qqs.enqueue(q);
+    }
+    return qqs;
   }
 
   /**
@@ -59,8 +65,13 @@ public class MergeSort {
    */
   private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
           Queue<Item> q1, Queue<Item> q2) {
-    // Your code here!
-    return null;
+    if (q1 == null || q2 == null) return null;
+    Queue<Item> qs = new Queue<>();
+    while (q1.isEmpty() == false || q2.isEmpty() == false) {
+      Item p = getMin(q1, q2);
+      qs.enqueue(p);
+    }
+    return qs;
   }
 
   /**
@@ -74,7 +85,16 @@ public class MergeSort {
    */
   public static <Item extends Comparable> Queue<Item> mergeSort(
           Queue<Item> items) {
-    // Your code here!
-    return items;
+    Queue<Queue<Item>> qqs;
+    qqs = makeSingleItemQueues(items);
+
+    while (qqs.size() > 1) {
+      Queue<Item> q1 = qqs.dequeue();
+      Queue<Item> q2 = qqs.dequeue(); // check isEmpty. But it is redundant
+      Queue<Item> re = mergeSortedQueues(q1, q2);
+      qqs.enqueue(re);
+    }
+
+    return qqs.dequeue();
   }
 }
